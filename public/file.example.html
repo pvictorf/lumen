@@ -34,9 +34,9 @@
                     </div>
                 </div>
 
-                <div class="card-footer p-4" >
-                    <video id="videoPreview" src="" controls style="width: 100%; height: auto"></video>
-                </div>
+                <pre>
+                    <span id="response-text"></span>
+                </pre>
             </div>
         </div>
     </div>
@@ -71,8 +71,8 @@
 
     resumable.on('fileSuccess', function (file, response) { // trigger when file upload complete
         response = JSON.parse(response)
-        $('#videoPreview').attr('src', response.path);
-        $('.card-footer').show();
+        console.log(response);
+        $('#response-text').text(JSON.stringify(response));
     });
 
     resumable.on('fileError', function (file, response) { // trigger when there is any error

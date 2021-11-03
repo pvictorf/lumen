@@ -43,7 +43,7 @@ php -S 127.0.0.1:8888 -t public/
 | POST   | /logout         | -                                                         | Authorization: Bearer Token |
 | POST   | /password/send  | email                                                     | -                           |
 | POST   | /password/reset | token(signature), email, password, password_confirmation  |                             |
-| POST   | /file/upload    | Upload larges files, using chunks                         |                             |   
+| POST   | /file/upload    | Upload using chunks. (see: http://localhost:8888/file.example.html)                    |                             |   
 | GET    | /facebook/redirect | Facebook Login API                                     |                             |
 | GET    | /facebook/callback | Query params of Facebook callback                      |                             |
 | GET    | /google/redirect | Google Login API                                         |                             |

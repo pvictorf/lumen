@@ -31,16 +31,6 @@ class FileUploaderController extends Controller
   }
 
 
-  private function responseWithPercentage($fileReceived)
-  {
-    $handler = $fileReceived->handler();
-
-    return response()->json([
-      'done' => $handler->getPercentageDone(),
-      'status' => true
-    ]);
-  }
-
   /**
    * Saves the file
    *
@@ -69,6 +59,7 @@ class FileUploaderController extends Controller
       'mime_type' => $mime
     ]);
   }
+  
 
   /**
    * Saves the file to S3 server
@@ -83,7 +74,7 @@ class FileUploaderController extends Controller
 
     $disk = Storage::disk('s3');
 
-    $disk->put('anexps', $file);
+    $disk->put('upload', $file);
 
     // for older laravel
     // $disk->put($fileName, file_get_contents($file), 'public');
@@ -99,6 +90,7 @@ class FileUploaderController extends Controller
     ]);
   }
 
+
   /**
    * Create unique filename for uploaded file
    * @param UploadedFile $file
@@ -113,5 +105,16 @@ class FileUploaderController extends Controller
     $filename .= "_" . md5(time()) . "." . $extension;
 
     return $filename;
+  }
+
+
+  private function responseWithPercentage($fileReceived)
+  {
+    $handler = $fileReceived->handler();
+
+    return response()->json([
+      'done' => $handler->getPercentageDone(),
+      'status' => true
+    ]);
   }
 }
