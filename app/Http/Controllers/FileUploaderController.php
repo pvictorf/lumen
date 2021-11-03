@@ -20,11 +20,7 @@ class FileUploaderController extends Controller
     //
   }
 
-  public function index()
-  {
-  }
-
-  public function store(Request $request)
+  public function upload(Request $request)
   {
     $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
 

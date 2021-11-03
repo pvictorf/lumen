@@ -5,6 +5,6 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-$router->post('/file/upload', 'FileUploaderController@store');
+$router->post('/file/upload', 'FileUploaderController@upload');
 
-$router->post('/file/download', 'FileUploaderController@show');
+$router->post('/file/download', 'FileDownloaderController@download');
