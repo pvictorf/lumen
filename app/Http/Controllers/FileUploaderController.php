@@ -24,11 +24,7 @@ class FileUploaderController extends Controller
     if ($fileReceived->isFinished()) {
       $file = $fileReceived->getFile();
 
-      $fileInfo = $this->saveFile($file);
-
-      unlink($file->getPathname());
-
-      return response()->json([$fileInfo], 201);
+      return $this->saveFile($file);
     }
 
     return $this->responseWithPercentage($fileReceived);
@@ -45,17 +41,33 @@ class FileUploaderController extends Controller
     ]);
   }
 
-  private function saveFile($file)
+  /**
+   * Saves the file
+   *
+   * @param UploadedFile $file
+   *
+   * @return JsonResponse
+   */
+  protected function saveFile($file)
   {
     $fileName = $this->createFilename($file);
+    // Group files by mime type
+    $mime = str_replace('/', '-', $file->getMimeType());
+    // Group files by the date (week
+    $dateFolder = date("Y-m-W");
 
-    $disk = Storage::disk(config('filesystems.default'));
-    $path = $disk->put('anexos', $file);
+    // Build the file path
+    $filePath = "upload/{$mime}/{$dateFolder}/";
+    $finalPath = storage_path("app/" . $filePath);
 
-    return (object) [
-      'path' => url($path),
-      'fileName' => $fileName
-    ];
+    // move the file name
+    $file->move($finalPath, $fileName);
+
+    return response()->json([
+      'path' => $filePath,
+      'name' => $fileName,
+      'mime_type' => $mime
+    ]);
   }
 
   /**
