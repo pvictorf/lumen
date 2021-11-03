@@ -47,4 +47,4 @@ php -S 127.0.0.1:8888 -t public/
 | GET    | /facebook/redirect | Facebook Login API                                     |                             |
 | GET    | /facebook/callback | Query params of Facebook callback                      |                             |
 | GET    | /google/redirect | Google Login API                                         |                             |
-| GET    | /goole/callback | Query params of Google callback                           |                             |
+| GET    | /google/callback | Query params of Google callback                          |                             |
