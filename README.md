@@ -36,7 +36,7 @@ php -S 127.0.0.1:8888 -t public/
 |--------|-----------------|-----------------------------------------------------------|-----------------------------|
 | POST   | /register       | name, email, password, password_confirmation              | -                           |
 | POST   | /email/send     | email                                                     | -                           |
-| GET   | /email/verify   | url provided on email                                      | -                           |
+| GET    | /email/verify   | url provided on email                                     | -                           |
 | POST   | /login          | email, password                                           | -                           |
 | POST   | /me             | -                                                         | Authorization: Bearer Token |
 | POST   | /refresh        | -                                                         | Authorization: Bearer Token |
