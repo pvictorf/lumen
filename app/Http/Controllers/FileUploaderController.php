@@ -10,15 +10,6 @@ use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class FileUploaderController extends Controller
 {
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-    //
-  }
 
   public function upload(Request $request)
   {
@@ -42,6 +33,7 @@ class FileUploaderController extends Controller
 
     return $this->responseWithPercentage($fileReceived);
   }
+
 
   private function responseWithPercentage($fileReceived)
   {
