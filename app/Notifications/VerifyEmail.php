@@ -106,7 +106,7 @@ class VerifyEmail extends Notification
             [
               'id' => sha1(md5($notifiable->getKey())),
               'hash' => sha1(md5($notifiable->getEmailForVerification())),
-              'email' => base64_encode($notifiable->getEmailForVerification())
+              'active' => base64_encode($notifiable->getEmailForVerification())
             ]
         );
 

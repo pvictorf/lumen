@@ -23,6 +23,6 @@ class PasswordResetMail extends Mailable {
 
   public function build() 
   {
-    return view;
+    return;  // view;
   }
 }

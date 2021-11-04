@@ -23,7 +23,7 @@ $router->get('/email/verify', [
   'as' => 'verification.verify', 
   'uses' => 'Auth\Verification\VerifyEmailController@verify'
 ]);
- 
+
 // Password Reset
 $router->post('/password/send', 'Auth\Password\RequestPasswordController@sendResetLinkEmail');
 $router->post('/password/reset', 'Auth\Password\ResetPasswordController@reset');
