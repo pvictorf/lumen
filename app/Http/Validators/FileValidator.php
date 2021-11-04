@@ -19,7 +19,7 @@ class FileValidator extends Validator {
     $data = $request->all(); 
 
     $validator = Validator::make($data, [
-      'file' => 'required|mimes:jpg,png,bmp,doc,pdf,csv,txt,xls,ods,odt,zip,rar'
+      'file' => 'required|mimes:jpg,png,bmp,doc,docx,pdf,csv,txt,xls,ods,odt,zip,rar'
     ]);
  
     return $validator;
