@@ -24,13 +24,13 @@ class FileUploaderController extends Controller
 
       $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
 
-      if ($receiver->isUploaded() === false) {
+      if($receiver->isUploaded() === false) {
         throw new UploadMissingFileException();
       }
 
       $fileReceived = $receiver->receive();
 
-      if ($fileReceived->isFinished()) {
+      if($fileReceived->isFinished()) {
         $file = $fileReceived->getFile();
 
         return $this->saveFile($file);
@@ -56,8 +56,10 @@ class FileUploaderController extends Controller
   protected function saveFile($file)
   {
     $fileName = $this->createFilename($file);
+    
     // Group files by mime type
     $mime = str_replace('/', '-', $file->getMimeType());
+    
     // Group files by the date (week
     $dateFolder = date("Y-m-W");
 
@@ -123,7 +125,7 @@ class FileUploaderController extends Controller
   }
 
 
-  private function responseWithPercentage($fileReceived)
+  protected function responseWithPercentage($fileReceived)
   {
     $handler = $fileReceived->handler();
 
