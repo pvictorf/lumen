@@ -15,7 +15,6 @@
         "laravel/socialite": "^5.2",
         "league/flysystem": "^1.1",
         "pion/laravel-chunk-upload": "^1.4",
-        "ramsey/uuid": "^4.2",
         "spatie/laravel-permission": "^5.3",
         "tymon/jwt-auth": "^1.0"
     },
