@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Validators\FileValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
@@ -13,18 +14,32 @@ class FileUploaderController extends Controller
 
   public function upload(Request $request)
   {
-    $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
+    try {
 
-    if ($receiver->isUploaded() === false) {
-      throw new UploadMissingFileException();
-    }
+      $validator = FileValidator::upload($request);
 
-    $fileReceived = $receiver->receive();
+      if($validator->fails()) {
+        return response()->json(["error" => $validator->errors()->first()]);
+      }
 
-    if ($fileReceived->isFinished()) {
-      $file = $fileReceived->getFile();
+      $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
 
-      return $this->saveFile($file);
+      if ($receiver->isUploaded() === false) {
+        throw new UploadMissingFileException();
+      }
+
+      $fileReceived = $receiver->receive();
+
+      if ($fileReceived->isFinished()) {
+        $file = $fileReceived->getFile();
+
+        return $this->saveFile($file);
+      }
+
+    } catch(\Throwable $th) {
+
+      return response()->json(['error' => $th->getMessage()], 500);
+    
     }
 
     return $this->responseWithPercentage($fileReceived);
@@ -117,4 +132,6 @@ class FileUploaderController extends Controller
       'status' => true
     ]);
   }
+
+
 }

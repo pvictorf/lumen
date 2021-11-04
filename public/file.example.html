@@ -50,6 +50,7 @@
 <script type="text/javascript">
     let browseFile = $('#browseFile');
     let resumable = new Resumable({
+        chunkSize: (1*1024*1024),
         target: 'http://localhost:8888/file/upload',
         headers: {
             'Accept' : 'application/json'
