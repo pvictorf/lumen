@@ -26,7 +26,7 @@ class VerifyEmail extends Notification
    */
     public function __construct()
     {
-      $this->sendurl = env('MAIL_VERIFY_URL', url('email/verify/'));
+      $this->sendurl = env('FRONTEND_URL', url('email/verify/'));
     }
 
     /**
@@ -100,7 +100,7 @@ class VerifyEmail extends Notification
 
         $url = new UrlGenerator(app());  
 
-        return $url->temporarySignedRoute(
+        $sendUrl = $url->temporarySignedRoute(
             'verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
@@ -109,6 +109,8 @@ class VerifyEmail extends Notification
               'email' => base64_encode($notifiable->getEmailForVerification())
             ]
         );
+
+        return str_replace(env('APP_URL'), $this->sendurl, $sendUrl);
     }
 
     /**
