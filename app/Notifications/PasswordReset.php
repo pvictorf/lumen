@@ -24,7 +24,7 @@ class PasswordReset extends Notification
     public function __construct($token)
     {
         $this->token = $token;
-        $this->sendurl = env('FRONTEND_URL', url('password/reset/'));
+        $this->sendurl = env('FRONTEND_URL', env('APP_URL'));
     }
 
     /**
@@ -46,13 +46,11 @@ class PasswordReset extends Notification
    */
     public function toMail($notifiable)
     {
-        
-        
-        $url = env('FRONTEND_URL', env('APP_URL')) . "/{$this->token}";
+        $url = $this->sendurl . "/password/reset/{$this->token}";
         
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.') // Here are the lines you can safely override
-            ->action('Reset Password', $url)
-            ->line('If you did not request a password reset, no further action is required.');
+        ->line("You are receiving this email because we received a password reset request for your account.") // Here are the lines you can safely override
+        ->action('Reset Password', $url)
+        ->line('If you did not request a password reset, no further action is required.');
     }
 }

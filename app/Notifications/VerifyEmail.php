@@ -68,7 +68,7 @@ class VerifyEmail extends Notification
             return call_user_func(static::$toMailCallback, $notifiable, $verificationUrl);
         }
 
-        return $this->buildMailMessage($verificationUrl);
+        return $this->buildMailMessage($verificationUrl, $notifiable);
     }
 
     /**
@@ -77,7 +77,7 @@ class VerifyEmail extends Notification
      * @param  string  $url
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    protected function buildMailMessage($url)
+    protected function buildMailMessage($url, $notifiable)
     {
         return (new MailMessage)
             ->subject(Lang::get('Verify Email Address'))
