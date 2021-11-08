@@ -23,7 +23,6 @@ class AuthGoogleController extends Controller
 
       $user = User::where([
         'google_id' => $social->id,
-        'email' => $social->email,
       ])->first();
 
       if(!$user) {
