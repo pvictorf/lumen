@@ -12,6 +12,13 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    /**
+     * Define token expiration time in minutes
+     * Two days in minutes is iqual (60*24*2)
+     */
+    const TOKEN_EXPIRES_MINUTES = 2880;
+
+
     /** 
      * Create a new AuthController instance.
      *
@@ -105,7 +112,7 @@ class AuthController extends Controller
 
     private function generateToken($credentials) {
         $token = auth()
-            ->setTTL(60*24*2) // Two days in minutes
+            ->setTTL(self::TOKEN_EXPIRES_MINUTES) 
             ->attempt($credentials, true);
 
         return $token;    
@@ -113,7 +120,7 @@ class AuthController extends Controller
 
     public static function authenticateAndResponse($user) {
         $token = auth()
-        ->setTTL(60*24*2) // Two days in minutes
+        ->setTTL(self::TOKEN_EXPIRES_MINUTES) 
         ->login($user);
 
         return self::responseWithToken($token);

@@ -23,7 +23,6 @@ class AuthFacebookController extends Controller
 
       $user = User::where([
         'facebook_id' => $social->id,
-        'email' => $social->email,
       ])->first();
 
       if(!$user) {
