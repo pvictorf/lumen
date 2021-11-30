@@ -12,6 +12,7 @@ $router->post('/login', 'Auth\AuthController@login');
 // Auth Facebook
 $router->get('/facebook/redirect', 'Auth\AuthFacebookController@redirect');
 $router->get('/facebook/callback', 'Auth\AuthFacebookController@callback');
+$router->post('/facebook/authenticate', 'Auth\AuthFacebookController@authenticate');
 
 // Auth Google
 $router->get('/google/redirect', 'Auth\AuthGoogleController@redirect');
