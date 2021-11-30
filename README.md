@@ -46,7 +46,7 @@ php -S 127.0.0.1:8888 -t public/
 | POST   | /file/upload    | Upload using chunks. (see: http://localhost:8888/file.example.html) |                   |   
 | GET    | /facebook/redirect | Facebook login API                                     |                             |
 | GET    | /facebook/callback | Facebook callback, login for webpages                  |                             |
-| POST   | /facebook/authenticate | token (from facebook OAuth2.0), login for mobile apps |                          |
+| POST   | /facebook/authenticate | token from facebook, login for mobile apps (see: https://developers.facebook.com/apps/YOUR_APP_ID/roles/test-users/)|                          |
 | GET    | /google/redirect | Google login API                                         |                             |
 | GET    | /google/callback | Google callback, login for webpages                      |                             |
 
