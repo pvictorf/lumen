@@ -42,7 +42,7 @@ class AuthFacebookController extends Controller
       'token' => 'required|string'
     ]);
 
-    $token = $request->token;
+    $token = $request->token; 
 
     $social = Socialite::driver('facebook')->stateless()->userFromToken($token);
 
