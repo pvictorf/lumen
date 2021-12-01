@@ -29,7 +29,7 @@ class AuthFacebookController extends Controller
 
     } catch(\Throwable $th) {
       return response()->json([
-        "message" => "Falied login with facebook",
+        "message" => "Falied login with Facebook",
         "error" => $th->getMessage(),
       ], 400);
     }
@@ -44,11 +44,20 @@ class AuthFacebookController extends Controller
 
     $token = $request->token; 
 
-    $social = Socialite::driver('facebook')->stateless()->userFromToken($token);
+    try {
 
-    $user = $this->createOrLoginUser($social);
+      $social = Socialite::driver('facebook')->stateless()->userFromToken($token);
 
-    return AuthController::authenticateAndResponse($user);
+      $user = $this->createOrLoginUser($social);
+
+      return AuthController::authenticateAndResponse($user);
+
+    } catch(\Throwable $th) {
+      return response()->json([
+        "message" => "Falied login with Facebook",
+        "error" => $th->getMessage(),
+      ], 400);
+    }
   }
 
 

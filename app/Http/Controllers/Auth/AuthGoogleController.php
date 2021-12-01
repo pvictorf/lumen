@@ -15,25 +15,14 @@ class AuthGoogleController extends Controller
   {
     return Socialite::driver('google')->stateless()->redirect();
   }
+  
 
   public function callback(Request $request)
   {
     try {
       $social = Socialite::driver('google')->stateless()->user();
 
-      $user = User::where([
-        'google_id' => $social->id,
-      ])->first();
-
-      if(!$user) {
-        $user = User::create([
-          'google_id' => $social->id,
-          'name' => $social->name,
-          'email' => $social->email,
-          'avatar' => $social->avatar,
-          'password' => Hash::make(random_bytes(10)),
-        ])->assignRole('user');
-      }
+      $user = $this->createOrLoginUser($social);
 
       return AuthController::authenticateAndResponse($user);
 
@@ -43,5 +32,50 @@ class AuthGoogleController extends Controller
         "error" => $th->getMessage(),
       ], 400);
     }
+  }
+
+
+  public function authenticate(Request $request) 
+  {
+    $this->validate($request, [
+      'token' => 'required|string'
+    ]);
+
+    $token = $request->token; 
+
+    try {
+
+      $social = Socialite::driver('google')->stateless()->userFromToken($token);
+
+      $user = $this->createOrLoginUser($social);
+
+      return AuthController::authenticateAndResponse($user);
+      
+    } catch(\Throwable $th) {
+      return response()->json([
+        "message" => "Falied login with Google",
+        "error" => $th->getMessage(),
+      ], 400);
+    }
+  }
+
+
+  private function createOrLoginUser($social) 
+  {
+    $user = User::where([
+      'google_id' => $social->id,
+    ])->first();
+
+    if(!$user) {
+      $user = User::create([
+        'google_id' => $social->id,
+        'name' => $social->name,
+        'email' => $social->email,
+        'avatar' => $social->avatar,
+        'password' => Hash::make(random_bytes(10)),
+      ])->assignRole('user');
+    }
+
+    return $user;
   }
 }
