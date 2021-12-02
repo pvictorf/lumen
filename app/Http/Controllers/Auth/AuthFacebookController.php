@@ -25,13 +25,16 @@ class AuthFacebookController extends Controller
 
       $user = $this->createOrLoginUser($social);
 
-      return AuthController::authenticateAndResponse($user);
+      $token = auth()
+      ->setTTL(AuthController::TOKEN_EXPIRES_MINUTES) 
+      ->login($user);
+
+      return redirect( env('FRONTEND_URL') . "?tk={$token}&name={$user->name}");
 
     } catch(\Throwable $th) {
-      return response()->json([
-        "message" => "Falied login with Facebook",
-        "error" => $th->getMessage(),
-      ], 400);
+
+      return redirect( env('FRONTEND_URL') . "/fail");
+
     }
   }
 
@@ -60,7 +63,9 @@ class AuthFacebookController extends Controller
     }
   }
 
-
+  /**
+  * @return User
+  */
   private function createOrLoginUser($social) 
   {
     $user = User::where([
