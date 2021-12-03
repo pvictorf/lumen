@@ -76,7 +76,12 @@ class JWTAuthentication {
      */
     public static function logout() 
     {
-        return auth()->logout() ? true : false;
+        try {
+            auth()->logout();
+            return true;
+        } catch(\Throwable $th) {
+            return false;
+        }
     }
 
 
