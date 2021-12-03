@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Adapters\JWTAuthentication;
 use App\Http\Controllers\Controller;
 use App\Http\Validators\AuthValidator;
 use App\Models\User;
@@ -12,12 +13,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    /**
-     * Define token expiration time in minutes
-     * Two days in minutes is iqual (60*24*2)
-     */
-    const TOKEN_EXPIRES_MINUTES = 2880;
-
 
     /** 
      * Create a new AuthController instance.
@@ -27,6 +22,7 @@ class AuthController extends Controller
     public function __construct(User $user) {
     }
 
+    
     /**
      * Get a JWT via given credentials.
      *
@@ -40,7 +36,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $token = $this->generateToken($validator->validated());
+        $token = JWTAuthentication::generateToken($validator->validated());
 
         if(!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -48,6 +44,7 @@ class AuthController extends Controller
 
         return self::responseWithToken($token);
     }
+
 
     /**
      * Register a User.
@@ -77,16 +74,18 @@ class AuthController extends Controller
         ], 201); 
     }
 
+
     /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout() {
-        auth()->logout();
+        $revoked = JWTAuthentication::logout();
 
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'User successfully signed out', 'revoked' => $revoked]);
     }
+
 
     /**
      * Refresh a token.
@@ -94,8 +93,9 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh() {
-        return self::responseWithToken(auth()->refresh());
+        return self::responseWithToken(JWTAuthentication::refreshToken());
     }
+
 
     /**
      * Get the authenticated User.
@@ -103,28 +103,13 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function me() {
-        $user = auth()->user();
+        $user = JWTAuthentication::user();
         return response()->json([
             "name" => $user->name,
             "email" => $user->email,
         ]);
     }
 
-    private function generateToken($credentials) {
-        $token = auth()
-            ->setTTL(self::TOKEN_EXPIRES_MINUTES) 
-            ->attempt($credentials, true);
-
-        return $token;    
-    } 
-
-    public static function authenticateAndResponse($user) {
-        $token = auth()
-        ->setTTL(self::TOKEN_EXPIRES_MINUTES) 
-        ->login($user);
-
-        return self::responseWithToken($token);
-    }
 
     /**
      * Get the token array structure.
@@ -134,14 +119,17 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public static function responseWithToken($token) {
+        $expiresIn = JWTAuthentication::expiresIn();
+        $user = JWTAuthentication::user();
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => $expiresIn,
             'user' => [
-                'name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-                'avatar' => auth()->user()->avatar,
+                'name' => $user->name,
+                'email' => $user->email,
+                'avatar' => $user->avatar,
             ]
         ]);
     }
