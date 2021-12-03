@@ -27,11 +27,11 @@ class AuthFacebookController extends Controller
 
       $token = JWTAuthentication::login($user);
 
-      return redirect( env('FRONTEND_URL') . "?tk={$token}&name={$user->name}");
+      return redirect( env('SOCIAL_LOGIN_URL') . "?tk={$token}&name={$user->name}");
 
     } catch(\Throwable $th) {
 
-      return redirect( env('FRONTEND_URL') . "/fail");
+      return redirect( env('SOCIAL_LOGIN_URL') . "/fail");
 
     }
   }
