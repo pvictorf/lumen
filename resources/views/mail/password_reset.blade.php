@@ -19,14 +19,16 @@
             height: 80px;
         }
 
+        .mail__top-title {
+            line-height: 80px;
+            font-size: 22pt;
+            margin: 0;
+        }
+
         .mail__top-logo {
             display: block;
             margin: auto;
             text-align: center;
-            font-size: 18pt;
-        }
-
-        .mail__title {
             font-size: 18pt;
         }
 
@@ -66,7 +68,7 @@
         <table class="mail" >
             <tr class="mail__top">
                 <td class="mail__top-logo">
-                    <h1 style="margin: 0;">Logo</h1>
+                    <h1 class="mail__top-title">Resetar Senha</h1>
                 </td>
             </tr>
         </table>
