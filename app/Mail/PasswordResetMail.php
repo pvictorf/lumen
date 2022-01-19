@@ -13,7 +13,7 @@ class PasswordResetMail extends Mailable {
 
   private $url;
   private $user;
-  
+
 
   public function __construct(string $url, $user)
   {
@@ -21,8 +21,8 @@ class PasswordResetMail extends Mailable {
     $this->user = $user;
   }
 
-  public function build() 
+  public function build()
   {
-    return;  // view;
+    $this->view('mail.password_reset', ["link" => $this->url, "user" => $this->user]);
   }
 }

@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <style type="text/css">
+    <style>
         .mail {
             width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            box-sizing: border-box;
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
         }
@@ -14,26 +12,22 @@
         .mail__top,
         .mail__bottom {
             display: block;
-            padding: 1rem;
+            padding: 16px;
             background-color: #6C63FF;
             color: #ffffff;
             width: 100%;
-            height: 5rem;
+            height: 80px;
         }
 
         .mail__top-logo {
             display: block;
             margin: auto;
             text-align: center;
-            font-size: 2rem;
-        }
-
-        .mail__top-logo > * {
-            margin: 0;
+            font-size: 18pt;
         }
 
         .mail__title {
-            font-size: 2rem;
+            font-size: 18pt;
         }
 
         .mail__body {
@@ -41,13 +35,9 @@
         }
 
         .mail__body-image {
-            width: 100%;
-        }
-
-        .mail__body-image > img {
             display: block;
             width: 100%;
-            max-width: 18rem;
+            max-width: 200px;
             margin: auto;
             object-fit: contain;
             border-radius: 50%;
@@ -55,16 +45,16 @@
 
         .mail__spacing {
             display: block;
-            padding: 0.5rem;
+            padding: 12px;
         }
 
         .mail__button {
             display: block;
-            margin: 0 auto;
+            margin: 16px auto;
             color: #fff;
             background-color: #6C63FF;
             border-radius: 8px;
-            padding: 0.8rem 1.6rem;
+            padding: 8px 12px;
             width: max-content;
             text-decoration: none;
         }
@@ -76,15 +66,15 @@
         <table class="mail" >
             <tr class="mail__top">
                 <td class="mail__top-logo">
-                    <h1 class="">Logo</h1>
+                    <h1 style="margin: 0;">Logo</h1>
                 </td>
             </tr>
         </table>
         <table class="mail">
             <tr class="mail__spacing"><td></td></tr>
             <tr class="mail__body">
-                <td class="mail__body-image">
-                    <img alt="Mailbox" src="http://i.imgur.com/skjuki4.png" />
+                <td width="100%">
+                    <img class="mail__body-image" alt="Mailbox" src="http://i.imgur.com/skjuki4.png" />
                 </td>
             </tr>
             <tr class="mail__body">

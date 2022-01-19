@@ -47,7 +47,7 @@ class PasswordReset extends Notification
     public function toMail($notifiable)
     {
         $url = $this->sendurl . "/password/reset/{$this->token}?active=" . base64_encode($notifiable->email ?? '');
-        
+
         return (new MailMessage)
         ->line("You are receiving this email because we received a password reset request for your account.") // Here are the lines you can safely override
         ->action('Reset Password', $url)
