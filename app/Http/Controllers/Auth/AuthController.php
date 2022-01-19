@@ -14,15 +14,6 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
 
-    /** 
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct(User $user) {
-    }
-
-    
     /**
      * Get a JWT via given credentials.
      *
@@ -52,7 +43,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
-        
+
         $validator = AuthValidator::register($request);
 
         if($validator->fails()){
@@ -63,7 +54,7 @@ class AuthController extends Controller
             $validator->validated(),
             ['password' => Hash::make($request->password)],
             ['email_confirmation' => md5(Str::random(60))],
-        ))->assignRole('user'); 
+        ))->assignRole('user');
 
         return response()->json([
             'message' => 'User successfully registered',
@@ -71,7 +62,7 @@ class AuthController extends Controller
                 "name" => $user->name,
                 "email" => $user->email,
             ]
-        ], 201); 
+        ], 201);
     }
 
 
@@ -134,5 +125,5 @@ class AuthController extends Controller
         ]);
     }
 
-    
+
 }

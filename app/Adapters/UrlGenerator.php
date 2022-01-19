@@ -67,19 +67,6 @@ class UrlGenerator extends \Laravel\Lumen\Routing\UrlGenerator
         return $routeUrl;
     }
 
-    /**
-     * Create a temporary signed route URL for a named route.
-     *
-     * @param  string  $name
-     * @param  \DateTimeInterface|\DateInterval|int  $expiration
-     * @param  array  $parameters
-     * @param  bool  $absolute
-     * @return string
-     */
-    public function temporarySignedRoute($name, $expiration, $parameters = [], $absolute = true)
-    {
-        return $this->signedRoute($name, $parameters, $expiration, $absolute);
-    }
 
     /**
      * Determine if the given request has a valid signature.
@@ -114,13 +101,13 @@ class UrlGenerator extends \Laravel\Lumen\Routing\UrlGenerator
      */
     public function hasCorrectSignature(Request $request, $absolute = true)
     {
-        $url = $absolute ? $request->url() : '/' . $request->path();       
-        
+        $url = $absolute ? $request->url() : '/' . $request->path();
+
         /*
         $original = rtrim($url . '?'. Arr::query(
                 Arr::except($request->query(), 'signature')
             ), '?');
- 
+
         */
         $signature = hash_hmac('sha256', sha1(env('APP_KEY')), call_user_func($this->keyResolver));
 
