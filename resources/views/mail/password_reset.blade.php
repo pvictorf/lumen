@@ -81,7 +81,7 @@
             </tr>
             <tr class="mail__body">
                 <td>
-                    <p>Olá, Paulo.</p>
+                    <p>Olá, {{ $user->name }}.</p>
                     <p>Esqueceu sua senha?</p>
                     <p>Nos recebemos uma solicitação para resetar sua senha.</p>
                     <p>Para resetar sua senha, basta clicar no botão abaixo: </p>
@@ -89,13 +89,13 @@
             </tr>
             <tr class="mail__body-action">
                 <td>
-                    <a href="{{ $link }}" class="mail__button">Resetar Senha</a>
+                    <a href="{{ $url }}" class="mail__button">Resetar Senha</a>
                 </td>
             </tr>
             <tr class="mail__body-action">
                 <td>
                     <p>Ou copie o link abaixo no seu browser: </p>
-                    <a href="{{ $link }}">{{ $link }}</a>
+                    <a href="{{ $url }}">{{ $url }}</a>
                 </td>
             </tr>
             <tr class="mail__spacing"><td></td></tr>
