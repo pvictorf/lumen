@@ -23,6 +23,9 @@ class PasswordResetMail extends Mailable {
 
   public function build()
   {
-    $this->view('mail.password_reset', ["link" => $this->url, "user" => $this->user]);
+    return $this->view('mail.password_reset', [
+        "url" => $this->url,
+        "user" => $this->user
+    ]);
   }
 }

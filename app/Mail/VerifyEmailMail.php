@@ -14,15 +14,18 @@ class VerifyEmailMail extends Mailable {
 
   private $url;
   private $user;
-  
+
   public function __construct(string $url, $user)
   {
     $this->url = $url;
     $this->user = $user;
   }
 
-  public function build() 
+  public function build()
   {
-    return;  // view;
+    return $this->view('mail.verify_email', [
+        "url" => $this->url,
+        "user" => $this->user
+    ]);
   }
 }
