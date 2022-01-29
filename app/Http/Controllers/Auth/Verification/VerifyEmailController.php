@@ -67,7 +67,7 @@ class VerifyEmailController extends Controller
       return false;
     }
 
-    if (!hash_equals((string) $hash, 
+    if (!hash_equals((string) $hash,
           sha1(md5($this->user->getEmailForVerification())))) {
       return false;
     }
@@ -83,7 +83,7 @@ class VerifyEmailController extends Controller
   public function verify(Request $request)
   {
     $url = new UrlGenerator(app());
-    
+
     if(!$url->hasValidSignature($request)) {
       return response()->json(['message' => 'Invalid signature or link expired'], 401);
     }
@@ -100,7 +100,7 @@ class VerifyEmailController extends Controller
 
     $this->fulfill($user);
 
-    return AuthController::authenticateAndResponse($user);
+    return AuthController::responseWithToken($user);
   }
 
   /**
