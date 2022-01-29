@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Mail\PasswordResetMail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class PasswordReset extends Notification
 {
@@ -48,9 +50,7 @@ class PasswordReset extends Notification
     {
         $url = $this->sendurl . "/password/reset/{$this->token}?active=" . base64_encode($notifiable->email ?? '');
 
-        return (new MailMessage)
-        ->line("You are receiving this email because we received a password reset request for your account.") // Here are the lines you can safely override
-        ->action('Reset Password', $url)
-        ->line('If you did not request a password reset, no further action is required.');
+        return Mail::to($notifiable->email)
+            ->send((new PasswordResetMail($url, $notifiable)));
     }
 }
